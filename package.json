@@ -3,7 +3,7 @@
     "id": "logseq-randomutils-plugin",
     "title": "logseq-randomutils-plugin"
   },
-  "version": "0.0.5",
+  "version": "0.0.6",
   "name": "logseq-randomutils-plugin",
   "author": "hkgnp",
   "license": "MIT",
@@ -12,13 +12,20 @@
     "main": false
   },
   "scripts": {
-    "build": "rm -R dist && echo 'dist folder removed'; parcel build --no-source-maps src/index.html --public-url ./"
+    "build": "rm -R dist && echo 'dist folder removed'; postcss src/tailwind.css -o src/components/App.css && tsc && parcel build --no-source-maps src/index.html --public-url ./"
   },
   "dependencies": {
     "@logseq/libs": "^0.0.14",
-    "logseq-dateutils": "^0.0.26"
+    "logseq-dateutils": "^0.0.26",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tailwindcss": "^3.2.7"
   },
   "devDependencies": {
-    "parcel": "^2.8.3"
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "cssnano": "^5.1.15",
+    "parcel": "^2.8.3",
+    "postcss-cli": "^10.1.0"
   }
 }

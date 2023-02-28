@@ -1,6 +1,10 @@
 import "@logseq/libs";
+import React from "react";
+import ReactDOM from "react-dom/client";
 import { SettingSchemaDesc } from "@logseq/libs/dist/LSPlugin.user";
 import { getDateForPageWithoutBrackets } from "logseq-dateutils";
+import FormatText from "./components/FormatText";
+import handleClosePopup from "./handlePopup";
 
 function provideStyle() {
   const { fontSize, lineHeight, fontFamily } = logseq.settings!;
@@ -23,9 +27,7 @@ function main() {
 
   logseq.App.registerCommandPalette(
     {
-      key: Math.random()
-        .toString(36)
-        .replace(/[^a-z]+/g, ""),
+      key: "Open_block_in_right_sidebar",
       label: "Open block in right sidebar",
       keybinding: {
         binding: "ctrl+shift+o",
@@ -38,9 +40,7 @@ function main() {
 
   logseq.App.registerCommandPalette(
     {
-      key: Math.random()
-        .toString(36)
-        .replace(/[^a-z]+/g, ""),
+      key: "Go_to_today",
       label: "Go to today",
       keybinding: {
         binding: "ctrl+shift+t",
@@ -53,6 +53,26 @@ function main() {
           (await logseq.App.getUserConfigs()).preferredDateFormat
         ),
       });
+    }
+  );
+
+  handleClosePopup();
+  logseq.App.registerCommandPalette(
+    {
+      key: "Format_selected_text",
+      label: "Format text",
+    },
+    async function () {
+      const selectedBlocks = await logseq.Editor.getSelectedBlocks();
+      if (selectedBlocks)
+        ReactDOM.createRoot(
+          document.getElementById("app") as HTMLElement
+        ).render(
+          <React.StrictMode>
+            <FormatText selectedBlocks={selectedBlocks} />
+          </React.StrictMode>
+        );
+      logseq.showMainUI();
     }
   );
 }
