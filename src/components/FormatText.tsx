@@ -25,22 +25,55 @@ export default function FormatText(props: { selectedBlocks: BlockEntity[] }) {
   }
 
   async function setBoldItalic(flag: string) {
+    const r1 = /^\*\*\*(.+)\*\*\*/;
+    const r2 = /^\*\*(.+)\*\*/;
+    const r3 = /^\*(.+)\*/;
+
     for (const b of props.selectedBlocks) {
       const content = b.content;
 
-      if (flag === "bold") {
-        const boldRegexp = /\*\*(.*)\*\*/;
-        if (!boldRegexp.exec(content)) {
+      const r1matched = r1.exec(content);
+      const r2matched = r2.exec(content);
+      const r3matched = r3.exec(content);
+
+      // If 3*, means can only remove.
+      if (r1matched) {
+        if (flag === "bold") {
+          await logseq.Editor.updateBlock(
+            b.uuid,
+            content.substring(2, content.length - 2)
+          );
+        } else if (flag === "italic") {
+          await logseq.Editor.updateBlock(
+            b.uuid,
+            content.substring(1, content.length - 1)
+          );
+        }
+
+        // If 2*, means it's bold. Hence if click on bold, it will remove bold, but if click on italic, then it becomes 3*
+      } else if (r2matched) {
+        if (flag === "bold") {
+          await logseq.Editor.updateBlock(b.uuid, r2matched[1]);
+        } else if (flag === "italic") {
+          console.log(content);
+          await logseq.Editor.updateBlock(b.uuid, `*${content}*`);
+        }
+
+        // If 1*, means it's italic. Hence if click on bold, it will become 3 stars, but if click on italic, it becomes 0*.
+      } else if (r3matched) {
+        if (flag === "bold") {
           await logseq.Editor.updateBlock(b.uuid, `**${content}**`);
-        } else if (content === boldRegexp.exec(content)![0]) {
-          await logseq.Editor.updateBlock(b.uuid, content.replaceAll("**", ""));
+        } else if (flag === "italic") {
+          await logseq.Editor.updateBlock(
+            b.uuid,
+            content.substring(1, content.length - 1)
+          );
         }
       } else {
-        const italicRegexp = /\*(.*)\*/;
-        if (!italicRegexp.exec(content)) {
+        if (flag === "bold") {
+          await logseq.Editor.updateBlock(b.uuid, `**${content}**`);
+        } else if (flag === "italic") {
           await logseq.Editor.updateBlock(b.uuid, `*${content}*`);
-        } else if (content === italicRegexp.exec(content)![0]) {
-          await logseq.Editor.updateBlock(b.uuid, content.replaceAll("*", ""));
         }
       }
     }
@@ -64,13 +97,13 @@ export default function FormatText(props: { selectedBlocks: BlockEntity[] }) {
         ))}{" "}
         |{" "}
         <button
-          onClick={() => setBoldItalic("bold")}
+          onClick={async () => await setBoldItalic("bold")}
           className="py-1 px-2 rounded-md bg-green-800 text-white font-bold"
         >
           Bold
         </button>
         <button
-          onClick={() => setBoldItalic("italic")}
+          onClick={async () => await setBoldItalic("italic")}
           className="py-1 px-2 rounded-md bg-green-800 text-white italic"
         >
           Italic
