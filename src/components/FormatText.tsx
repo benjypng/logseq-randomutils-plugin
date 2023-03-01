@@ -11,14 +11,24 @@ export default function FormatText(props: { selectedBlocks: BlockEntity[] }) {
       headers = headers + "#";
     }
     for (const b of props.selectedBlocks) {
-      const content = b.content;
-      if (content.startsWith(headers)) {
+      if (b.content.startsWith(headers)) {
         await logseq.Editor.updateBlock(
           b.uuid,
-          `${content.replace(headers, "")}`
+          `${b.content.replace(headers, "")}`
         );
       } else {
-        await logseq.Editor.updateBlock(b.uuid, `${headers} ${content}`);
+        await logseq.Editor.updateBlock(b.uuid, `${headers} ${b.content}`);
+      }
+    }
+    logseq.hideMainUI();
+  }
+
+  async function addAutoHeading() {
+    for (const b of props.selectedBlocks) {
+      if (b.properties?.heading) {
+        await logseq.Editor.removeBlockProperty(b.uuid, "heading");
+      } else {
+        await logseq.Editor.upsertBlockProperty(b.uuid, "heading", true);
       }
     }
     logseq.hideMainUI();
@@ -90,21 +100,26 @@ export default function FormatText(props: { selectedBlocks: BlockEntity[] }) {
           <button
             name={h.toString()}
             onClick={() => addHeading(h)}
-            className="py-1 px-2 rounded-md bg-green-800 text-white"
+            className="py-1 px-2 rounded-md border border-green-800 text-green-800 hover:bg-green-800 hover:text-white"
           >
             {`H` + h}
           </button>
-        ))}{" "}
-        |{" "}
+        ))}
         <button
-          onClick={async () => await setBoldItalic("bold")}
-          className="py-1 px-2 rounded-md bg-green-800 text-white font-bold"
+          onClick={addAutoHeading}
+          className="py-1 px-2 rounded-md border border-green-800 text-green-800 hover:bg-green-800 hover:text-white"
+        >
+          Auto-Heading
+        </button>
+        <button
+          onClick={() => setBoldItalic("bold")}
+          className="py-1 px-2 rounded-md border border-green-800 text-green-800 hover:bg-green-800 hover:text-white"
         >
           Bold
         </button>
         <button
-          onClick={async () => await setBoldItalic("italic")}
-          className="py-1 px-2 rounded-md bg-green-800 text-white italic"
+          onClick={() => setBoldItalic("italic")}
+          className="py-1 px-2 rounded-md border border-green-800 text-green-800 hover:bg-green-800 hover:text-white"
         >
           Italic
         </button>
