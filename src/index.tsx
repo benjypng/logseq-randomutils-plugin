@@ -1,7 +1,10 @@
 import "@logseq/libs";
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { SettingSchemaDesc } from "@logseq/libs/dist/LSPlugin.user";
+import {
+  IBatchBlock,
+  SettingSchemaDesc,
+} from "@logseq/libs/dist/LSPlugin.user";
 import { getDateForPageWithoutBrackets } from "logseq-dateutils";
 import FormatText from "./components/FormatText";
 import handleClosePopup from "./handlePopup";
@@ -73,6 +76,36 @@ function main() {
           </React.StrictMode>
         );
       logseq.showMainUI();
+    }
+  );
+
+  logseq.Editor.registerBlockContextMenuItem(
+    "Create page from block",
+    async function (e) {
+      const blk = await logseq.Editor.getBlock(e.uuid, {
+        includeChildren: true,
+      });
+      const page = await logseq.Editor.createPage(
+        blk!.content.replace("collapsed:: true", ""),
+        {},
+        {
+          redirect: true,
+          createFirstBlock: true,
+        }
+      );
+      await logseq.Editor.insertBatchBlock(
+        page!.uuid,
+        blk!.children as IBatchBlock[]
+      );
+      await logseq.Editor.updateBlock(
+        e.uuid,
+        `[[${blk!.content.replace("collapsed:: true", "")}]]`
+      );
+      await logseq.Editor.insertBlock(e.uuid, `[[${page?.name}]]`, {
+        sibling: true,
+        before: false,
+      });
+      await logseq.Editor.removeBlock(e.uuid);
     }
   );
 }
