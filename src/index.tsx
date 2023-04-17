@@ -78,6 +78,21 @@ function main() {
       logseq.showMainUI();
     }
   );
+  logseq.App.registerCommandPalette(
+    {
+      key: "scroll_to_top",
+      label: "Scroll to top",
+      keybinding: {
+        binding: "s t",
+      },
+    },
+    async function () {
+      const mainContentContainer = top?.document.getElementById(
+        "main-content-container"
+      );
+      mainContentContainer!.scroll(0, 0);
+    }
+  );
 
   logseq.Editor.registerBlockContextMenuItem(
     "Create page from block",
