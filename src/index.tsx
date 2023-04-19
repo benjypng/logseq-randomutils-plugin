@@ -93,6 +93,24 @@ function main() {
       mainContentContainer!.scroll(0, 0);
     }
   );
+  logseq.App.registerCommandPalette(
+    {
+      key: "scroll_to_bottom",
+      label: "Scroll to bottom",
+      keybinding: {
+        binding: "s b",
+      },
+    },
+    async function () {
+      const pbt = await logseq.Editor.getCurrentPageBlocksTree();
+      if (pbt.length === 0) return;
+
+      const page = await logseq.Editor.getPage(pbt[0].page.id);
+      if (!page) return;
+
+      logseq.Editor.scrollToBlockInPage(page.name, pbt[pbt.length - 1].uuid);
+    }
+  );
 
   logseq.Editor.registerBlockContextMenuItem(
     "Create page from block",
