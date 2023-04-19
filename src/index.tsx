@@ -103,7 +103,7 @@ function main() {
     },
     async function () {
       const pbt = await logseq.Editor.getCurrentPageBlocksTree();
-      if (pbt.length === 0) return;
+      if (pbt === null || pbt.length === 0) return;
 
       const page = await logseq.Editor.getPage(pbt[0].page.id);
       if (!page) return;
