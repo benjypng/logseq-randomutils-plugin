@@ -1,3 +1,5 @@
+> Please note that the dictionary function uses an external API to get the definition. Privacy-conscious folks should then avoid using this function.
+
 # Overview
 
 This is a random set of utilities that may be useful who need them.
