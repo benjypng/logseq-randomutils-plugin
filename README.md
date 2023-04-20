@@ -25,6 +25,22 @@ Highlight desired blocks. Activate command palette (`Mod+Shift+t`) and type `For
 
 Go to the plugin settings to adjust accordingly. If more granular customisations are needed, do use a theme instead.
 
+### Scroll to top of page
+
+Use the shortcut `s t`.
+
+### Scroll to bottom of page
+
+Use the shortcut `s b`.
+
+### Check dictionary meanings of highlighted words
+
+Highlight the word, and use the shortcut `Ctrl+m`.
+
+### Google highlighted words
+
+Highlight the word, and use the shortcut `Ctrl+g`.
+
 # Installation
 
 Install from marketplace, or download the release and manually load it in Logseq.
