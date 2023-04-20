@@ -8,6 +8,7 @@ import {
 import { getDateForPageWithoutBrackets } from "logseq-dateutils";
 import FormatText from "./components/FormatText";
 import handleClosePopup from "./handlePopup";
+import axios from "axios";
 
 function provideStyle() {
   const { fontSize, lineHeight, fontFamily } = logseq.settings!;
@@ -109,6 +110,49 @@ function main() {
       if (!page) return;
 
       logseq.Editor.scrollToBlockInPage(page.name, pbt[pbt.length - 1].uuid);
+    }
+  );
+  logseq.App.registerCommandPalette(
+    {
+      key: "google_text",
+      label: "Google text",
+      keybinding: {
+        binding: "ctrl+g",
+      },
+    },
+    async function () {
+      const text = top!.window.getSelection()?.toString();
+      top!.window.open(`https://www.google.com/search?q=${text}`);
+    }
+  );
+  logseq.App.registerCommandPalette(
+    {
+      key: "get_dictionary_meaning",
+      label: "Get dictionary meaning",
+      keybinding: {
+        binding: "ctrl+m",
+      },
+    },
+    async function () {
+      const text = top!.window.getSelection()?.toString();
+      const { data } = await axios.get(
+        `https://api.dictionaryapi.dev/api/v2/entries/en/${text}`
+      );
+      let meaningsString = ``;
+      for (const m of data[0].meanings) {
+        meaningsString += `[:hr][:h3.text-l "${m.partOfSpeech}"][:ul`;
+        for (const d of m.definitions) {
+          meaningsString += `[:li "${d.definition}"]`;
+        }
+        meaningsString += `]`;
+      }
+      logseq.UI.showMsg(
+        `[:div.p-2
+          [:h1.text-xl "${text}"]
+          [:h2 "${data[0].phonetic}"]
+					${meaningsString}]`,
+        "error"
+      );
     }
   );
 

@@ -28,3 +28,7 @@ Go to the plugin settings to adjust accordingly. If more granular customisations
 # Installation
 
 Install from marketplace, or download the release and manually load it in Logseq.
+
+# Credits
+
+[Free Dictionary API](https://dictionaryapi.dev) for their beautiful service to mankind.
