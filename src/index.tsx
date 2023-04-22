@@ -130,7 +130,7 @@ function main() {
       key: "get_dictionary_meaning",
       label: "Get dictionary meaning",
       keybinding: {
-        binding: "ctrl+m",
+        binding: "ctrl+shift+m",
       },
     },
     async function () {
@@ -151,7 +151,8 @@ function main() {
           [:h1.text-xl "${text}"]
           [:h2 "${data[0].phonetic}"]
 					${meaningsString}]`,
-        "error"
+        "success",
+        { timeout: 600000 }
       );
     }
   );

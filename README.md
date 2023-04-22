@@ -37,7 +37,9 @@ Use the shortcut `s b`.
 
 ### Check dictionary meanings of highlighted words
 
-Highlight the word, and use the shortcut `Ctrl+m`.
+Highlight the word, and use the shortcut `Ctrl+Shift+m`.
+
+![](screenshots/demo.gif)
 
 ### Google highlighted words
 
