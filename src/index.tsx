@@ -103,13 +103,36 @@ function main() {
       },
     },
     async function () {
-      const pbt = await logseq.Editor.getCurrentPageBlocksTree();
+      const blk = await logseq.Editor.getCurrentBlock();
+      if (!blk) return;
+
+      const pg = await logseq.Editor.getPage(blk!.page.id);
+      const pbt = await logseq.Editor.getPageBlocksTree(pg!.name);
       if (pbt === null || pbt.length === 0) return;
 
-      const page = await logseq.Editor.getPage(pbt[0].page.id);
-      if (!page) return;
+      logseq.Editor.scrollToBlockInPage(pg!.name, pbt[pbt.length - 1].uuid);
+    }
+  );
+  logseq.App.registerCommandPalette(
+    {
+      key: "add_block_to_bottom",
+      label: "Add block to bottom of page",
+      keybinding: {
+        binding: "a b",
+      },
+    },
+    async function () {
+      const blk = await logseq.Editor.getCurrentBlock();
+      if (!blk) return;
 
-      logseq.Editor.scrollToBlockInPage(page.name, pbt[pbt.length - 1].uuid);
+      const pg = await logseq.Editor.getPage(blk!.page.id);
+      const pbt = await logseq.Editor.getPageBlocksTree(pg!.name);
+      if (pbt === null || pbt.length === 0) return;
+
+      await logseq.Editor.insertBlock(pbt[pbt.length - 1].uuid, "", {
+        sibling: true,
+        before: false,
+      });
     }
   );
   logseq.App.registerCommandPalette(
