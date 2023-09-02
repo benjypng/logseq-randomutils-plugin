@@ -6,6 +6,7 @@ import { scrollBottom, scrollTop } from "./features/scroll";
 import { dictionaryText, googleText } from "./features/google-dictionary";
 import { addBlockBottom, createPageFromBlock } from "./features/create-blocks";
 import { goToday } from "./features/navigation";
+
 import FormatText from "./components/FormatText";
 import { render } from "preact";
 
