@@ -1,6 +1,6 @@
 import { BlockEntity } from "@logseq/libs/dist/LSPlugin.user";
-import { useState } from "react";
 import "./App.css";
+import { useState } from "preact/hooks";
 
 export default function FormatText(props: { selectedBlocks: BlockEntity[] }) {
   const [headings] = useState([1, 2, 3, 4, 5, 6]);
@@ -91,11 +91,8 @@ export default function FormatText(props: { selectedBlocks: BlockEntity[] }) {
   }
 
   return (
-    <div className="flex justify-center border border-black">
-      <div
-        className="absolute top-20 bg-white rounded-lg p-3 w-auto border flex flex-row gap-3"
-        id="powerblocks-menu"
-      >
+    <div className="flex justify-center">
+      <div className="absolute top-20 bg-white rounded-lg p-3 w-auto flex flex-row gap-3">
         {headings.map((h) => (
           <button
             name={h.toString()}
