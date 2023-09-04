@@ -42,25 +42,7 @@ jobs:
           allowUpdates: true
           draft: false
           prerelease: false
-
-      - name: Upload zip file
-        id: upload_zip
-        uses: actions/upload-release-asset@v1
+      - name: Release
+        run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./${{ env.PLUGIN_NAME }}.zip
-          asset_name: ${{ env.PLUGIN_NAME }}-${{ steps.build.outputs.tag_name }}.zip
-          asset_content_type: application/zip
-
-      - name: Upload package.json
-        id: upload_metadata
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./package.json
-          asset_name: package.json
-          asset_content_type: application/json
