@@ -41,6 +41,7 @@
   "devDependencies": {
     "autoprefixer": "^10.4.15",
     "buffer": "^5.7.1",
+    "cssnano": "^6.0.1",
     "tailwindcss": "^3.2.7",
     "vite": "^4.4.9",
     "vite-plugin-logseq": "^1.1.2"
