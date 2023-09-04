@@ -3,7 +3,7 @@
     "id": "logseq-randomutils-plugin",
     "title": "logseq-randomutils-plugin"
   },
-  "version": "0.0.18",
+  "version": "0.0.19",
   "name": "logseq-randomutils-plugin",
   "author": "hkgnp",
   "license": "MIT",
@@ -12,7 +12,9 @@
     "main": false
   },
   "scripts": {
-    "build": "rm -R dist && echo 'dist folder removed'; postcss src/tailwind.css -o src/components/App.css && tsc && parcel build --no-source-maps src/index.html --public-url ./"
+    "dev": "npx vite",
+    "build": "npx tsc && npx vite build",
+    "preview": "npx vite preview"
   },
   "release": {
     "branches": [
@@ -33,12 +35,13 @@
     "@logseq/libs": "^0.0.14",
     "axios": "^1.3.6",
     "logseq-dateutils": "^0.0.26",
-    "preact": "^10.17.1",
-    "tailwindcss": "^3.2.7"
+    "preact": "^10.17.1"
   },
   "devDependencies": {
+    "tailwindcss": "^3.2.7",
     "buffer": "^5.7.1",
-    "parcel": "^2.8.3",
-    "postcss-cli": "^10.1.0"
+    "vite": "^4.4.9",
+    "vite-plugin-logseq": "^1.1.2",
+    "autoprefixer": "^10.4.15"
   }
 }
