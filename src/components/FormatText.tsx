@@ -1,6 +1,6 @@
 import { BlockEntity } from "@logseq/libs/dist/LSPlugin.user";
 import "./App.css";
-import { useState } from "preact/hooks";
+import { useState } from "react";
 
 export default function FormatText(props: { selectedBlocks: BlockEntity[] }) {
   const [headings] = useState([1, 2, 3, 4, 5, 6]);
@@ -14,7 +14,7 @@ export default function FormatText(props: { selectedBlocks: BlockEntity[] }) {
       if (b.content.startsWith(headers)) {
         await logseq.Editor.updateBlock(
           b.uuid,
-          `${b.content.replace(headers, "")}`
+          `${b.content.replace(headers, "")}`,
         );
       } else {
         await logseq.Editor.updateBlock(b.uuid, `${headers} ${b.content}`);
@@ -51,21 +51,20 @@ export default function FormatText(props: { selectedBlocks: BlockEntity[] }) {
         if (flag === "bold") {
           await logseq.Editor.updateBlock(
             b.uuid,
-            content.substring(2, content.length - 2)
+            content.substring(2, content.length - 2),
           );
         } else if (flag === "italic") {
           await logseq.Editor.updateBlock(
             b.uuid,
-            content.substring(1, content.length - 1)
+            content.substring(1, content.length - 1),
           );
         }
 
         // If 2*, means it's bold. Hence if click on bold, it will remove bold, but if click on italic, then it becomes 3*
       } else if (r2matched) {
         if (flag === "bold") {
-          await logseq.Editor.updateBlock(b.uuid, r2matched[1]);
+          await logseq.Editor.updateBlock(b.uuid, r2matched[1]!);
         } else if (flag === "italic") {
-          console.log(content);
           await logseq.Editor.updateBlock(b.uuid, `*${content}*`);
         }
 
@@ -76,7 +75,7 @@ export default function FormatText(props: { selectedBlocks: BlockEntity[] }) {
         } else if (flag === "italic") {
           await logseq.Editor.updateBlock(
             b.uuid,
-            content.substring(1, content.length - 1)
+            content.substring(1, content.length - 1),
           );
         }
       } else {
@@ -93,7 +92,7 @@ export default function FormatText(props: { selectedBlocks: BlockEntity[] }) {
   return (
     <div className="flex justify-center">
       <div className="absolute top-20 bg-white rounded-lg p-3 w-auto flex flex-row gap-3">
-        {headings.map((h) => (
+        {headings.map((h: number) => (
           <button
             name={h.toString()}
             onClick={() => addHeading(h)}

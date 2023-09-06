@@ -1,5 +1,3 @@
-import { BlockEntity, IBatchBlock } from "@logseq/libs/dist/LSPlugin.user";
-
 export const addBlockBottom = () => {
   logseq.App.registerCommandPalette(
     {
@@ -19,11 +17,11 @@ export const addBlockBottom = () => {
       const pbt = await logseq.Editor.getPageBlocksTree(pg.name);
       if (pbt === null || pbt.length === 0) return;
 
-      await logseq.Editor.insertBlock(pbt[pbt.length - 1].uuid, "", {
+      await logseq.Editor.insertBlock(pbt[pbt.length - 1]!.uuid, "", {
         sibling: true,
         before: false,
       });
-    }
+    },
   );
 };
 
@@ -48,7 +46,7 @@ export const createPageFromBlock = () => {
           {
             redirect: true,
             createFirstBlock: true,
-          }
+          },
         );
         if (!page) return;
 
@@ -56,7 +54,7 @@ export const createPageFromBlock = () => {
         await logseq.Editor.insertBatchBlock(page.uuid, children!);
         await logseq.Editor.updateBlock(
           e.uuid,
-          `[[${blk!.content.replace("collapsed:: true", "")}]]`
+          `[[${blk!.content.replace("collapsed:: true", "")}]]`,
         );
         await logseq.Editor.insertBlock(e.uuid, `[[${page.name}]]`, {
           sibling: true,
@@ -67,6 +65,6 @@ export const createPageFromBlock = () => {
         // TODO:Create new page with link title as page name and remaining text in the block
         // Regex content inside link description
       }
-    }
+    },
   );
 };

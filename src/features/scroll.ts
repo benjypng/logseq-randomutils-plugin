@@ -9,10 +9,10 @@ export const scrollTop = () => {
     },
     async function () {
       const mainContentContainer = top?.document.getElementById(
-        "main-content-container"
+        "main-content-container",
       );
       mainContentContainer!.scroll(0, 0);
-    }
+    },
   );
 };
 
@@ -35,7 +35,7 @@ export const scrollBottom = () => {
       const pbt = await logseq.Editor.getPageBlocksTree(pg!.name);
       if (pbt === null || pbt.length === 0) return;
 
-      logseq.Editor.scrollToBlockInPage(pg.name, pbt[pbt.length - 1].uuid);
-    }
+      logseq.Editor.scrollToBlockInPage(pg.name, pbt[pbt.length - 1]!.uuid);
+    },
   );
 };

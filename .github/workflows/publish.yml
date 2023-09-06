@@ -1,4 +1,4 @@
-name: Build plugin
+name: Build Logseq Plugin
 
 on:
   push:
@@ -9,19 +9,18 @@ on:
 env:
   PLUGIN_NAME: ${{ github.event.repository.name }}
 
-permissions:
-  contents: write
-
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
+
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "20.x" # You might need to adjust this value to your own version
+
       - name: Build
         id: build
         run: |
@@ -31,7 +30,8 @@ jobs:
           mv dist ${{ env.PLUGIN_NAME }}
           zip -r ${{ env.PLUGIN_NAME }}.zip ${{ env.PLUGIN_NAME }}
           ls
-          echo "::set-output name=tag_name::$(git tag --sort version:refname | tail -n 1)"
+          echo "tag_name=git tag --sort version:refname | tail -n 1" >> $GITHUB_OUTPUT
+
       - name: Release
         run: npx semantic-release
         env:

@@ -8,7 +8,7 @@ import { addBlockBottom, createPageFromBlock } from "./features/create-blocks";
 import { goToday } from "./features/navigation";
 
 import FormatText from "./components/FormatText";
-import { render } from "preact";
+import { createRoot } from "react-dom/client";
 
 const provideStyle = () => {
   const { fontSize, lineHeight, fontFamily } = logseq.settings!;
@@ -46,13 +46,13 @@ function main() {
     },
     async function () {
       const selectedBlocks = await logseq.Editor.getSelectedBlocks();
-      if (selectedBlocks)
-        render(
-          <FormatText selectedBlocks={selectedBlocks} />,
-          document.getElementById("app") as HTMLElement
-        );
-      logseq.showMainUI();
-    }
+      if (selectedBlocks) {
+        const container = document.getElementById("app");
+        const root = createRoot(container!);
+        root.render(<FormatText selectedBlocks={selectedBlocks} />);
+        logseq.showMainUI();
+      }
+    },
   );
 }
 
