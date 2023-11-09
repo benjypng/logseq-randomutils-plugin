@@ -9,6 +9,7 @@ import { goToday } from "./features/navigation";
 
 import FormatText from "./components/FormatText";
 import { createRoot } from "react-dom/client";
+import { sortBlocksOnPage } from "./features/sort-blocks-on-page";
 
 const provideStyle = () => {
   const { fontSize, lineHeight, fontFamily } = logseq.settings!;
@@ -38,6 +39,7 @@ function main() {
   addBlockBottom();
   createPageFromBlock();
   goToday();
+  sortBlocksOnPage();
 
   logseq.App.registerCommandPalette(
     {

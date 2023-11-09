@@ -45,6 +45,10 @@ Highlight the word, and use the shortcut `Ctrl+Shift+m`.
 
 Highlight the word, and use the shortcut `Ctrl+g`.
 
+### Sort blocks in page
+
+Right click on the page title, and click `Sort blocks`.
+
 # Installation
 
 Install from marketplace, or download the release and manually load it in Logseq.
